@@ -55,10 +55,22 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.3</version>
+                <version>1.1.0</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <imageName>docker.image.prefix/${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <imageName>service-eureka/${project.artifactId}:${project.version}</imageName>
+                    <dockerHost>http://121.196.42.204:2375</dockerHost>
+                    <baseImage>java:8</baseImage>
+                    <entryPoint>["java", "-jar","/${project.build.finalName}.jar"]
+                    </entryPoint>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -68,6 +80,7 @@
                     </resources>
                 </configuration>
             </plugin>
+
             <!-- end::plugin[] -->
 
         </plugins>
